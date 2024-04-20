@@ -3,7 +3,7 @@
 (provide parse-program)
 
 (define (parse-program input)
-  ; Funkce pro tokenizaci vstupu
+  ; Funkce pro tokenizaci vstupu uživatele
   (define (tokenize str)
     (map string-trim
          (filter (lambda (s) (not (string=? s "")))
@@ -11,13 +11,10 @@
   
   (define tokens (tokenize input))
   
-  ; Výstupní seznam
+  ; Výstupní zásobník
   (define output '())
 
-  ; Zásobník pro udržení stavu
-  (define stack '(Program))
-
-  ; Funkce pro porovnání aktuálního tokenu a očekávaného tokenu
+  ; Function to compare the current token with the expected token
   (define (expect token)
     (if (and (not (null? tokens)) (equal? (car tokens) token))
         (begin
@@ -25,20 +22,22 @@
           token)
         (error "Unexpected token" tokens)))
   
-  ; Funkce pro zpracování různých pravidel
+  ; Funkce pro zpracování pravidel
   (define (parse-expression)
-    (let loop ((term (parse-term)))
-      (cond [(and (not (null? tokens)) (member (car tokens) '("+" "-")))
-             (let ((op (expect (car tokens))))
-               (loop (list op term (parse-term))))]
-            [else term])))
+    (define (recur-exp term)
+      (if (and (not (null? tokens)) (member (car tokens) '("+" "-")))
+          (let ((op (expect (car tokens))))
+            (recur-exp (list op term (parse-term))))
+          term))
+    (recur-exp (parse-term)))
 
   (define (parse-term)
-    (let loop ((factor (parse-factor)))
-      (cond [(and (not (null? tokens)) (member (car tokens) '("*" "/")))
-             (let ((op (expect (car tokens))))
-               (loop (list op factor (parse-factor))))]
-            [else factor])))
+    (define (recur-term factor)
+      (if (and (not (null? tokens)) (member (car tokens) '("*" "/")))
+          (let ((op (expect (car tokens))))
+            (recur-term (list op factor (parse-factor))))
+          factor))
+    (recur-term (parse-factor)))
 
   (define (parse-factor)
     (cond [(char-numeric? (string-ref (car tokens) 0))
@@ -57,9 +56,11 @@
     (define id (expect (car tokens)))
     (expect "=")
     (define expr (parse-expression))
-    (expect ";")
+    (if (and (not (null? tokens)) (equal? (car tokens) ";"))
+        (expect ";")
+        (error "Expected ;"))
     (list 'Assign id expr))
-  
+
   (define (parse-statement-list)
     (if (and (not (null? tokens)) (not (equal? (car tokens) "$")))
         (cons (parse-statement) (parse-statement-list))
@@ -67,4 +68,3 @@
 
   (parse-statement-list)
   )
-
