@@ -1,5 +1,7 @@
 #lang racket
 
+(provide parse-program)
+
 (define (parse-program input)
   ; Funkce pro tokenizaci vstupu
   (define (tokenize str)
@@ -12,7 +14,7 @@
   ; Výstupní seznam
   (define output '())
 
-  ; Zásobník pro udržení stavu analýzy
+  ; Zásobník pro udržení stavu
   (define stack '(Program))
 
   ; Funkce pro porovnání aktuálního tokenu a očekávaného tokenu
@@ -66,5 +68,3 @@
   (parse-statement-list)
   )
 
-; Testování parseru
-(parse-program "x = 3 + 4; y = x * (2 + 3);")

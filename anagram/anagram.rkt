@@ -1,4 +1,6 @@
 #lang racket
+(require rackunit)
+
 
 ; Actual anagram procedure
 ; Takes a list of strings, each string a single word
@@ -46,7 +48,7 @@
 
 
 ;(define anagram-list (anagrams (file->lines "NL woordenlijst Gutenberg.txt")))
-(define anagram-list (anagrams (file->lines "Dutch cleaned.txt")))
+(define anagram-list (anagrams (file->lines "slova.txt")))
 
 (define (anagram-tuples-longer-than anagram-list lower-bound)
   (sort
@@ -94,7 +96,7 @@
    (lambda (item value) (+ (length item) value))))
 
 (define wordlength-frequency-table
-  (make-frequency-table (file->lines "Dutch cleaned.txt") string-length))
+  (make-frequency-table (file->lines "slova.txt") string-length))
 
 (define anagram-tuplelength-frequency-table
   (make-frequency-table
@@ -118,6 +120,12 @@
                       (string-contains? word "ij")))
                   anagram-list)))
 
-anagram-list
+;anagram-list
 
 
+anagram-wordlength-frequency-table
+
+anagram-tuplelength-frequency-table
+
+(check-equal? (anagrams (list "test" "sett")) '()
+              "Expected no anagrams for single word input.")
