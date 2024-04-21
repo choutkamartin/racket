@@ -14,7 +14,7 @@
   ; Výstupní zásobník
   (define output '())
 
-  ; Function to compare the current token with the expected token
+  ; Funkce pro porovnání aktuálního tokenu s očekávaným tokenem
   (define (expect token)
     (if (and (not (null? tokens)) (equal? (car tokens) token))
         (begin
