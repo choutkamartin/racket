@@ -5,6 +5,7 @@
 
 ; Martin Choutka
 ; xchom027@studenti.czu.cz
+; Skupina 1
 
 ; Cílem vyhledávače je ze vstupního listu slov vyhledat přesmyčky.
 ; Vstupem může být definovaný seznam slov přímo v kódu či externí soubor slova.txt.

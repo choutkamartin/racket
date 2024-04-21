@@ -4,6 +4,7 @@
 
 ; Martin Choutka
 ; xchom027@studenti.czu.cz
+; Skupina 1
 
 ; Cílem analyzátoru je rozpoznat, zda vstupní program odpovídá pravidlům dané gramatiky a přeložit tento vstup do strukturovaného formátu seznamů, které reprezentují syntaxi programu.
 ; Tento přístup je základem pro další zpracování, jako je interpretace nebo kompilace kódu.
