@@ -1,10 +1,12 @@
 #lang racket
 (require rackunit)
 
+(provide anagrams anagram-list)
 
 ; Actual anagram procedure
 ; Takes a list of strings, each string a single word
 
+; Definování funkce anagrams, která očekává jako vstup list s jednotlivými slovy
 (define (anagrams single-word-list)
   
   (define (remove-hyphen string)
@@ -46,8 +48,7 @@
                                     alist-without-hyphens)])
     alist-sorted-entries))
 
-
-;(define anagram-list (anagrams (file->lines "NL woordenlijst Gutenberg.txt")))
+; Definování funkce anagram-list, která volá funkcí anagrams se vstupem ze souboru, kdy každý nový řádek je nové slovo
 (define anagram-list (anagrams (file->lines "slova.txt")))
 
 (define (anagram-tuples-longer-than anagram-list lower-bound)
@@ -119,13 +120,3 @@
                     (for/or ([word line])
                       (string-contains? word "ij")))
                   anagram-list)))
-
-;anagram-list
-
-
-anagram-wordlength-frequency-table
-
-anagram-tuplelength-frequency-table
-
-(check-equal? (anagrams (list "test" "sett")) '()
-              "Expected no anagrams for single word input.")
